@@ -42,7 +42,7 @@ try:
         def mime_magic(file):
             return magic_.file(file)
 except ImportError, e:
-    if e.message.find("magic") >= 0:
+    if str(e).find("magic") >= 0:
         magic_message = "Module python-magic is not available."
     else:
         magic_message = "Module python-magic can't be used (%s)." % e.message
@@ -756,6 +756,7 @@ class S3(object):
         upload.upload_all_parts()
         response = upload.complete_multipart_upload()
         response["speed"] = 0 # XXX
+        response["size"] = size
         return response
 
     def recv_file(self, request, stream, labels, start_position = 0, retries = _max_retries):
